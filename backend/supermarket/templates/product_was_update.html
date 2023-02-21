@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+<br>
+<h2>Product {{ product.name }} was updated</h2>
+<h3>Product ID: {{ product.id }}</h3>
+<h3>Old Product Details:</h3>
+Id: {{ old_product.id }} </br>
+Name: {{ old_product.name }} </br>
+SKU: {{ old_product.sku }} </br>
+Price: {{ old_product.price }} </br>
+Brand: {{ old_product.brand.name }} </br>
+<h3>New Product Details:</h3>
+Id: {{ product.id }} </br>
+Name: {{ product.name }} </br>
+SKU: {{ product.sku }} </br>
+Price: {{ product.price }} </br>
+Brand: {{ product.brand.name }} </br>
+<h3>
+    Who made the change:
+</h3>
+Email: {{ who_made_change.email }} <br/>
+Username: {{ who_made_change.username }}
+</body>
+</html>

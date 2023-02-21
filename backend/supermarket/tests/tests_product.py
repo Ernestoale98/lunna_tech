@@ -1,3 +1,4 @@
+from django.core import mail
 from django.test import TestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -11,7 +12,7 @@ class ProductTestCase(TestCase):
 
     def setUp(self) -> None:
         self.brand = Brand.objects.create(name='Apple')
-        user = User.objects.create_user(username='john', email='js@js.com', password='js.sj')
+        user = User.objects.create_user(username='john', email='js@js.com', password='js.sj', is_superuser=True)
         refresh = RefreshToken.for_user(user)
         self.token = f"Bearer {refresh.access_token}"
 
@@ -78,3 +79,5 @@ class ProductTestCase(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsNotNone(Product.objects.get(id=response.json().get('id')))
+        # Assert if the email notification was sent
+        self.assertEqual(len(mail.outbox), 1)
