@@ -16,15 +16,26 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-# supermarket
+# Supermarket
 from backend.supermarket import views as supermarket_views
+# JWT
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 """API routes"""
 router = routers.SimpleRouter()
 router.register(r'brands', viewset=supermarket_views.BrandViewSet)
 router.register(r'products', viewset=supermarket_views.ProductViewSet)
 
+"""API authentication routes"""
+api_authentication_urls = [
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+]
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls + api_authentication_urls))
 ]
