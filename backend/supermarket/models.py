@@ -59,3 +59,6 @@ class ProductRequestLog(BaseModel):
         on_delete=models.PROTECT,
         help_text="Required, Id of product"
     )
+
+    class Meta:
+        db_table = "supermarket_product_request_log"
