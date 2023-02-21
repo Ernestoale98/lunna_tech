@@ -28,3 +28,11 @@ class ProductViewSet(ModelViewSet):
         # Notify admins about the change
         services.notify_product_was_updated(self.get_object(), old_product, request.user)
         return response
+
+    def retrieve(self, request, *args, **kwargs):
+        """Function to retrieve Product, if the user is anonymous save a ProductRequestLog"""
+        if request.user.is_anonymous:
+            # Save ProductRequestLog
+            services.create_product_request_log(self.get_object())
+        # Use retrieve() from ModelViewSet
+        return super().retrieve(self, request, *args, **kwargs)

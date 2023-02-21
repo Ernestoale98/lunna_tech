@@ -3,7 +3,7 @@ from django.test import TestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from backend.authentication.models import User
-from backend.supermarket.models import Product, Brand
+from backend.supermarket.models import Product, Brand, ProductRequestLog
 from rest_framework import status
 from django.db.models import ObjectDoesNotExist
 
@@ -81,3 +81,17 @@ class ProductTestCase(TestCase):
         self.assertIsNotNone(Product.objects.get(id=response.json().get('id')))
         # Assert if the email notification was sent
         self.assertEqual(len(mail.outbox), 1)
+
+    def test_product_can_be_retrieved_by_anonymous_user(self):
+        product = Product.objects.create(**{
+            'name': 'AirPods',
+            'sku': 'AIR123',
+            'price': 4999.99,
+            'brand': self.brand
+        })
+        response = self.client.get(f"/api/products/{product.id}/", content_type='application/json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsNotNone(Product.objects.get(id=response.json().get('id')))
+        # Assert that product has a request log because the user is anonymous
+        self.assertNotEqual(ProductRequestLog.objects.filter(product=product).count(), 0)

@@ -48,3 +48,14 @@ class Product(BaseModel):
 
     def __str__(self):
         return self.name
+
+
+class ProductRequestLog(BaseModel):
+    """ProductRequestLog Model
+    this model is used to track how many times and
+    when a product is queried"""
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.PROTECT,
+        help_text="Required, Id of product"
+    )

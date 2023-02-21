@@ -1,8 +1,7 @@
 from django.core.mail import send_mail
-from django.template import Context
 from django.template.loader import get_template
 
-from backend.supermarket.models import Product
+from backend.supermarket.models import Product, ProductRequestLog
 from django.conf import settings
 from backend.authentication.models import User
 
@@ -23,3 +22,8 @@ def notify_product_was_updated(product: Product, old_product: Product, who_made_
         fail_silently=False,
         html_message=message
     )
+
+
+def create_product_request_log(product: Product) -> ProductRequestLog:
+    """Create new ProductRequestLog"""
+    return ProductRequestLog.objects.create(product=product)
