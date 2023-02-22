@@ -43,6 +43,12 @@ password: pass
 go to users and create new user, next edit that user with real email and with
 permissions Staff status and Superuser status, this is to receive emails
 
+### Usage in real environment
+
+[Admin panel](https://lunnatech.herokuapp.com/admin/login)
+
+[API](https://lunnatech.herokuapp.com/api)
+
 # Update product
 
 Use
